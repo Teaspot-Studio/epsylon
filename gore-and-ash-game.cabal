@@ -43,6 +43,8 @@ executable gore-and-ash-client
                       OverloadedStrings
                       TypeFamilies
 
+  ghc-options: -Wall -threaded
+
 executable gore-and-ash-server
   hs-source-dirs:      src/server, src/shared
   main-is:             Main.hs
@@ -72,3 +74,5 @@ executable gore-and-ash-server
                       MultiParamTypeClasses
                       OverloadedStrings
                       TypeFamilies
+
+  ghc-options: -Wall -threaded

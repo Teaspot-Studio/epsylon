@@ -35,8 +35,8 @@ main :: IO ()
 main = withModule (Proxy :: Proxy AppMonad) $ do
   gs <- newGameState $ runActor' mainWire
   gsRef <- newIORef gs
-  (host, port) <- liftIO parseArgs
   fps <- makeFPSBounder simulationFPS
+  (host, port) <- liftIO parseArgs
   firstStep fps host port gs gsRef `onCtrlC` exitHandler gsRef
   where
     -- | What to do on emergency exit
