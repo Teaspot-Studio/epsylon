@@ -22,8 +22,10 @@ executable gore-and-ash-client
                       Game
                       Game.Core
                       Game.Data
+                      Game.World.Shared
 
   build-depends:        base >= 4.7 && < 5
+                      , cereal >= 0.4.1.1
                       , deepseq >= 1.4.1.1
                       , exceptions >= 0.8.2.1
                       , gore-and-ash >= 1.1.0.1
@@ -57,8 +59,12 @@ executable gore-and-ash-server
                       Game
                       Game.Core
                       Game.Data
+                      Game.World.Data
+                      Game.World.Shared
 
   build-depends:        base >= 4.7 && < 5
+                      , cereal >= 0.4.1.1
+                      , containers >= 0.5.6.2
                       , deepseq >= 1.4.1.1
                       , exceptions >= 0.8.2.1
                       , gore-and-ash >= 1.1.0.1
@@ -67,15 +73,21 @@ executable gore-and-ash-server
                       , gore-and-ash-logging >= 1.1.0.0
                       , gore-and-ash-network >= 1.1.0.1
                       , gore-and-ash-sync >= 1.1.0.0
+                      , hashable >= 1.2.4.0
                       , network >= 2.6.2.1
+                      , text >= 1.2.2.0
                       , transformers >= 0.4.2.0
+                      , unordered-containers >= 0.2.5.1
+
   default-extensions: 
+                      Arrows
                       DataKinds 
                       DeriveGeneric
                       FlexibleContexts
                       GeneralizedNewtypeDeriving
                       MultiParamTypeClasses
                       OverloadedStrings
+                      ScopedTypeVariables
                       TypeFamilies
-
+                      
   ghc-options: -Wall -threaded

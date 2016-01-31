@@ -3,13 +3,17 @@ module Game.Data(
   , GameId(..)
   ) where
 
-import GHC.Generics 
 import Control.DeepSeq 
+import Data.HashMap.Strict (HashMap)
+import GHC.Generics 
 
 import Game.GoreAndAsh.Actor 
 
-data Game = Game 
-  deriving (Generic)
+import Game.World.Data 
+
+data Game = Game {
+    gameWorlds :: HashMap WorldId World
+  } deriving (Generic)
 
 instance NFData Game 
 
