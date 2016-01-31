@@ -17,9 +17,11 @@ executable gore-and-ash-client
   main-is:             Main.hs
   default-language:    Haskell2010
   other-modules:       
+                      Consts
                       FPS
                       Game
                       Game.Core
+                      Game.Data
 
   build-depends:        base >= 4.7 && < 5
                       , deepseq >= 1.4.1.1
@@ -54,6 +56,7 @@ executable gore-and-ash-server
                       FPS
                       Game
                       Game.Core
+                      Game.Data
 
   build-depends:        base >= 4.7 && < 5
                       , deepseq >= 1.4.1.1
