@@ -59,6 +59,7 @@ executable gore-and-ash-server
                       Game
                       Game.Core
                       Game.Data
+                      Game.World.Chunks
                       Game.World.Data
                       Game.World.Shared
 
@@ -75,10 +76,12 @@ executable gore-and-ash-server
                       , gore-and-ash-sync >= 1.1.0.0
                       , hashable >= 1.2.4.0
                       , network >= 2.6.2.1
+                      , repa >= 3.4.0.2
                       , text >= 1.2.2.0
                       , transformers >= 0.4.2.0
                       , unordered-containers >= 0.2.5.1
-
+                      , vector >= 0.11.0.0
+                      
   default-extensions: 
                       Arrows
                       DataKinds 

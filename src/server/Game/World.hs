@@ -8,9 +8,9 @@ import Control.Wire
 import Prelude hiding (id, (.))
 
 import Game.Core
-import Game.World.Data
-
 import Game.Data 
+import Game.World.Chunks
+import Game.World.Data
 
 import Game.GoreAndAsh
 import Game.GoreAndAsh.Actor 
@@ -21,6 +21,7 @@ worldActor = makeActor $ \i -> stateWire (initalWorld i) $ mainController i
   initalWorld i = World {
       worldId = i 
     , worldName = "Default world"
+    , worldChunks = emptyChunkArray
     } 
 
   mainController _ = proc (_, w) -> do 
