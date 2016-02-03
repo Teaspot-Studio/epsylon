@@ -1,6 +1,7 @@
 module Game.Chunk.Data(
     Chunk(..)
   , ChunkId(..)
+  , emptyChunk
   ) where
 
 import Control.DeepSeq
@@ -33,3 +34,9 @@ instance ActorMessage ChunkId where
 
   fromCounter = ChunkId 
   toCounter = unChunkId
+
+emptyChunk :: ChunkId -> V2 Int -> Chunk 
+emptyChunk i v = Chunk {
+    chunkId = i 
+  , chunkCoords = v
+  }

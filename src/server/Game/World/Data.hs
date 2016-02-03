@@ -8,7 +8,7 @@ import Control.DeepSeq
 import Data.Text 
 import GHC.Generics
 
-import Game.World.Chunks
+import Game.World.Chunks.Data
 import Game.World.Shared
 
 import Game.GoreAndAsh.Sync

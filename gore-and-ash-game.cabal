@@ -62,7 +62,9 @@ executable gore-and-ash-server
                       Game.Chunk.Data
                       Game.Core
                       Game.Data
+                      Game.World
                       Game.World.Chunks
+                      Game.World.Chunks.Data
                       Game.World.Data
                       Game.World.Shared
 
