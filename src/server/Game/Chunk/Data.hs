@@ -14,6 +14,7 @@ import Game.GoreAndAsh.Actor
 
 -- | Small part of world
 data Chunk = Chunk {
+-- | Unique id of chunk
   chunkId :: !ChunkId
 -- | World coordinates of chunk
 , chunkCoords :: !(V2 Int)
