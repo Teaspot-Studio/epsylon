@@ -12,12 +12,16 @@ import Linear
 
 import Game.GoreAndAsh.Actor
 
+import Game.World.Biome
+
 -- | Small part of world
 data Chunk = Chunk {
 -- | Unique id of chunk
   chunkId :: !ChunkId
 -- | World coordinates of chunk
 , chunkCoords :: !(V2 Int)
+-- | Chunk selected biome
+, chunkBiome :: !Biome 
 } deriving (Generic)
 
 instance NFData Chunk
@@ -36,8 +40,9 @@ instance ActorMessage ChunkId where
   fromCounter = ChunkId 
   toCounter = unChunkId
 
-emptyChunk :: ChunkId -> V2 Int -> Chunk 
-emptyChunk i v = Chunk {
+emptyChunk :: ChunkId -> V2 Int -> Biome -> Chunk 
+emptyChunk i v b = Chunk {
     chunkId = i 
   , chunkCoords = v
+  , chunkBiome = b
   }
