@@ -23,7 +23,8 @@ executable gore-and-ash-client
                       Game.Core
                       Game.Data
                       Game.World.Shared
-                      
+                      Render.Texture
+
   build-depends:        base >= 4.7 && < 5
                       , cereal >= 0.4.1.1
                       , deepseq >= 1.4.1.1
@@ -40,6 +41,7 @@ executable gore-and-ash-client
                       , transformers >= 0.4.2.0
 
   default-extensions: 
+                      Arrows
                       DataKinds 
                       DeriveGeneric
                       FlexibleContexts
