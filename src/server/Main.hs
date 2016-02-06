@@ -1,5 +1,6 @@
 module Main where 
 
+import Control.DeepSeq 
 import Control.Exception
 import Control.Monad.IO.Class
 import Data.IORef 
@@ -64,9 +65,9 @@ main = withModule (Proxy :: Proxy AppMonad) $ do
     -- | Normal game loop
     gameLoop fps gs gsRef = do 
       waitFPSBound fps
-      (_, gs') <- stepGame gs (return ())
+      (a, gs') <- stepGame gs (return ())
       writeIORef gsRef gs'
-      gameLoop fps gs' gsRef
+      a `deepseq` gameLoop fps gs' gsRef
 
 -- | Executes given handler on Ctrl-C pressing
 onCtrlC :: IO a -> IO () -> IO a
