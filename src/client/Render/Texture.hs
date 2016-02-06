@@ -16,6 +16,8 @@ import Game.Core
 -- | Execute wire with renderer for given window.
 -- 
 -- Note: inhibits until Window isn't found.
+--
+-- TODO: move to SDL module.
 withRenderer :: MonadSDL m 
   => Text -- ^ Name of window
   -> (Renderer -> GameWire m a b) -- ^ Action with renderer
@@ -31,6 +33,8 @@ withRenderer wname rw = go
 -- | Execute wire with renderer for given window.
 -- 
 -- Note: inhibits until Window isn't found.
+--
+-- TODO: move to SDL module.
 withRendererM :: MonadSDL m 
   => Text -- ^ Name of window
   -> (Renderer -> GameMonadT m r) -- ^ Intialization of resource
