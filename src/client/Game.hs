@@ -3,9 +3,10 @@ module Game(
   , Game(..)
   ) where
 
-import Control.Wire 
-import Prelude hiding ((.), id)
+import Control.Wire
 import Linear 
+import Linear.Affine
+import Prelude hiding ((.), id)
 
 import Consts
 import Game.Core 
@@ -18,13 +19,15 @@ import Game.GoreAndAsh.SDL
 
 mainWire :: AppWire a (Maybe Game)
 mainWire = (<|> pure Nothing) $ proc _ -> do 
-  (t, _) <- dynamicTexture mainWindowName RGBA8888 (V2 600 800) drawRectangle -< ()
-  blitTexture mainWindowName Nothing Nothing -< t
+  (_, _) <- dynamicSurface mainWindowName drawRectangle -< ()
+  -- blitTexture mainWindowName Nothing Nothing -< t
+  -- drawRectangle -< ()
   closed <- isWindowClosed mainWindowName -< ()
   returnA -< Just $ Game closed
 
-drawRectangle :: AppWire a ()
-drawRectangle = proc _ -> returnA -< ()
+drawRectangle :: AppWire (Surface, ()) ()
+drawRectangle = liftGameMonad2 $ \s _ -> do
+  surfaceFillRect s (Just $ Rectangle (P $ V2 100 100) (V2 100 100)) (V4 255 0 0 255)
 
 -- | Outputs True if user hits close button
 isWindowClosed :: WindowName -> AppWire a Bool
