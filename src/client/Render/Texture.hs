@@ -1,12 +1,13 @@
 module Render.Texture(
-    dynamicTexture
+    dynamicSurface
   , blitTexture
+  , withRenderer
+  , withRendererM
   ) where
 
 import Control.Wire 
 import Prelude hiding (id, (.))
-import Data.Text 
-import Linear 
+import Data.Text
 
 import Game.GoreAndAsh
 import Game.GoreAndAsh.SDL as SDL
@@ -50,22 +51,39 @@ withRendererM wname mr rw = go
         r' <- mr r 
         return (Left (), rw r')
 
--- | Wraps rendering wire to render into texture
-dynamicTexture :: 
-     Text -- ^ Name of window
-  -> PixelFormat -- ^ Format for texture
-  -> V2 Int -- ^ Size for texture
-  -> AppWire a b -- ^ Rendering wire that output is directed to texture
-  -> AppWire a (Texture, b) -- ^ Result is texture and rendering wire output
-dynamicTexture wname pf sz drawWire = withRendererM wname initTex renderTex
+-- | Execute wire with window object
+-- 
+-- Note: inhibits until Window isn't found.
+--
+-- TODO: move to SDL module.
+withWindowM :: MonadSDL m 
+  => Text -- ^ Name of window
+  -> (Window -> GameMonadT m r) -- ^ Intialization of resource
+  -> (r -> GameWire m a b) -- ^ Wire with resource
+  -> GameWire m a b
+withWindowM wname mr rw = go 
   where
-  initTex r = createTexture r pf TextureAccessTarget (fromIntegral <$> sz)
+  go = mkGen $ \_ _ -> do 
+    mwr <- sdlGetWindowM wname
+    case mwr of 
+      Nothing -> return (Left (), go)
+      Just (w, _) -> do 
+        r' <- mr w
+        return (Left (), rw r')
 
-  renderTex t = proc a -> do  
-    liftGameMonad $ glBindTexture t -< ()
-    b <- drawWire -< a
-    liftGameMonad $ glUnbindTexture t  -< ()
-    returnA -< (t, b)
+-- | Wraps rendering wire to render into texture
+dynamicSurface :: 
+     Text -- ^ Name of window
+  -> AppWire (Surface, a) b -- ^ Rendering wire that output is directed to texture
+  -> AppWire a (Surface, b) -- ^ Result is texture and rendering wire output
+dynamicSurface wname drawWire = withWindowM wname initSurf renderSurf
+  where
+  initSurf w = (w,) <$> getWindowSurface w
+
+  renderSurf (w, s) = proc a -> do  
+    b <- drawWire -< (s, a)
+    liftGameMonad $ updateWindowSurface w -< ()
+    returnA -< (s, b)
 
 -- | Blits input texture into window surface
 blitTexture :: 

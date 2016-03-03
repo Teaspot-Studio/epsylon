@@ -39,6 +39,7 @@ executable gore-and-ash-client
                       , network >= 2.6.2.1
                       , text >= 1.2.2.0
                       , transformers >= 0.4.2.0
+                      , StateVar >= 1.1.0.3
 
   default-extensions: 
                       Arrows
@@ -48,8 +49,9 @@ executable gore-and-ash-client
                       GeneralizedNewtypeDeriving
                       MultiParamTypeClasses
                       OverloadedStrings
+                      TupleSections
                       TypeFamilies
-
+                      
   ghc-options: -Wall -threaded
 
 executable gore-and-ash-server
