@@ -17,6 +17,7 @@ import Game.Data
 
 import Render.Sprite
 import Render.Pipeline
+import Render.Font
 
 import Game.GoreAndAsh
 import Game.GoreAndAsh.GLFW
@@ -66,5 +67,6 @@ isWindowClosed = hold . mapE (const True) . windowClosing <|> pure False
 -- | Draws objects to screen
 renderScene :: GLStorage -> AppWire a ()
 renderScene storage = proc _ -> do
-  renderUISprite storage "./media/texture.png" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
+  -- renderUISprite storage "./media/ui/background.png" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
+  renderUIString storage "./media/fonts/Raleway-Bold.ttf" (PointSize 14) "Epsylon" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
   returnA -< ()

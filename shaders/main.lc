@@ -1,14 +1,16 @@
-spriteUI (texture :: Texture)
-         (prims :: PrimitiveStream Triangle (Vec 2 Float, Vec 2 Float))
-         (minCorner :: Vec 2 Float)
-         (maxCorner :: Vec 2 Float)
-         (rotation :: Float)
-         = imageFrame (( emptyColorImage (V4 0 0 0.4 1) ))
+import UI.Sprite
+--import UI.Font
+
+fontUI (prims :: PrimitiveStream Triangle ((Vec 2 Float)) )
+       (minCorner :: Vec 2 Float)
+       (maxCorner :: Vec 2 Float)
+       (rotation :: Float)
+       = imageFrame (( emptyColorImage (V4 0 0 0.4 1) ))
    `overlay`
        prims
-     & mapPrimitives (\(p,uv) -> (offset + (rotMatrixZ rotation *. toV4 (size * p)), uv))
-     & rasterizePrimitives (TriangleCtx CullNone PolygonFill NoOffset LastVertex) ((Smooth))
-     & mapFragments (\((uv)) -> ((texture2D (Sampler PointFilter MirroredRepeat texture) uv)) )
+     & mapPrimitives (\((p)) -> (offset + (rotMatrixZ rotation *. toV4 (size * p)), p) )
+     & rasterizePrimitives (TriangleCtx CullNone (PolygonLine 0.1) NoOffset LastVertex) ((Smooth))
+     & mapFragments (\_ -> ((white)) )
      & accumulateWith (( (ColorOp NoBlending (V4 True True True True)) ))
    where
      toV4 p = V4 p%x p%y (-1) 1
@@ -16,8 +18,12 @@ spriteUI (texture :: Texture)
      size = maxCorner - minCorner
 
 main = renderFrame $
-   spriteUI  (Texture2DSlot "diffuseTexture")
-             (fetch "objects" (Attribute "position", Attribute "uv"))
-             (Uniform "minCorner")
-             (Uniform "maxCorner")
-             (Uniform "rotation")
+--   spriteUI  (Texture2DSlot "diffuseTexture")
+--             (fetch "objects" (Attribute "position", Attribute "uv"))
+--             (Uniform "minCorner")
+--             (Uniform "maxCorner")
+--             (Uniform "rotation")
+   fontUI  (fetch "strings" ((Attribute "position")) )
+           (Uniform "minCorner")
+           (Uniform "maxCorner")
+           (Uniform "rotation")

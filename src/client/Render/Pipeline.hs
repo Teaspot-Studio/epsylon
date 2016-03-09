@@ -2,6 +2,7 @@ module Render.Pipeline(
     mainPipeline
   , initPipeline
   , initStorage
+  , getCurrentDpi
   ) where
 
 import Control.Monad.IO.Class
@@ -28,6 +29,8 @@ initPipeline = do
     defObjectArray "objects" Triangles $ do
       "position"  @: Attribute_V2F
       "uv"        @: Attribute_V2F
+    defObjectArray "strings" Triangles $
+      "position"  @: Attribute_V2F
     defUniforms $ do
       "time"           @: Float
       "diffuseTexture" @: FTexture2D
@@ -58,3 +61,22 @@ initStorage = do
   (sid, storage) <- lambdacubeCreateStorage mainPipeline
   lambdacubeRenderStorageFirst sid
   return storage
+
+-- | Get DPI of current monitor
+getCurrentDpi :: (MonadGLFW m, MonadIO m) => GameMonadT m (Maybe Int)
+getCurrentDpi = do
+  mw <- getCurrentWindowM
+  case mw of
+    Nothing -> return Nothing
+    Just w -> do
+      mm <- liftIO $ GLFW.getWindowMonitor w
+      case mm of
+        Nothing -> return Nothing
+        Just mon -> do
+          mvm <- liftIO $ GLFW.getVideoMode mon
+          case mvm of
+            Nothing -> return Nothing
+            Just vm -> do
+              (mwidth, _) <- liftIO $ GLFW.getMonitorPhysicalSize mon
+              let mdw = fromIntegral mwidth / (25.4 :: Double)
+              return . Just . ceiling $ fromIntegral (GLFW.videoModeWidth vm) / mdw

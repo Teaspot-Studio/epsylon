@@ -1,0 +1,20 @@
+module UI.Sprite(
+    spriteUI
+  ) where
+
+spriteUI (texture :: Texture)
+         (prims :: PrimitiveStream Triangle (Vec 2 Float, Vec 2 Float))
+         (minCorner :: Vec 2 Float)
+         (maxCorner :: Vec 2 Float)
+         (rotation :: Float)
+         = imageFrame (( emptyColorImage (V4 0 0 0.4 1) ))
+   `overlay`
+       prims
+     & mapPrimitives (\(p,uv) -> (offset + (rotMatrixZ rotation *. toV4 (size * p)), uv))
+     & rasterizePrimitives (TriangleCtx CullNone PolygonFill NoOffset LastVertex) ((Smooth))
+     & mapFragments (\((uv)) -> ((texture2D (Sampler PointFilter MirroredRepeat texture) uv)) )
+     & accumulateWith (( (ColorOp NoBlending (V4 True True True True)) ))
+   where
+     toV4 p = V4 p%x p%y (-1) 1
+     offset = toV4 $ V2 (-1) (-1) - minCorner
+     size = maxCorner - minCorner
