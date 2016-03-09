@@ -41,7 +41,7 @@ renderWire storage = (<|> pure Nothing) $ proc _ -> do
   returnA -< Just $ Game closed
   where
   -- Updates storage uniforms
-  globalUniforms :: AppWire (Float, Float, Int32, Int32) ()
+  globalUniforms :: AppWire (Float, Float, Float, Float) ()
   globalUniforms = liftGameMonad1 $ \(aspect, t, w, h) -> liftIO $
     LambdaCubeGL.updateUniforms storage $ do
       --"viewMat" @= return (cameraMatrix t)
@@ -50,7 +50,7 @@ renderWire storage = (<|> pure Nothing) $ proc _ -> do
       "windowHeight" @= return h
 
 -- | Updates LambdaCube window size
-updateWinSize :: AppWire GLFW.Window (Float, Int32, Int32)
+updateWinSize :: AppWire GLFW.Window (Float, Float, Float)
 updateWinSize = liftGameMonad1 $ \win -> do
   (w, h) <- liftIO $ GLFW.getWindowSize win
   lambdacubeUpdateSize (fromIntegral w) (fromIntegral h)
@@ -68,5 +68,5 @@ isWindowClosed = hold . mapE (const True) . windowClosing <|> pure False
 renderScene :: GLStorage -> AppWire a ()
 renderScene storage = proc _ -> do
   -- renderUISprite storage "./media/ui/background.png" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
-  renderUIString storage "./media/fonts/Raleway-Bold.ttf" (PointSize 14) "Epsylon" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
+  renderUIString storage "./media/fonts/Raleway-Bold.ttf" (PointSize 200) "Epsylon" -< (V2 (-1) (-1.0), V2 1.0 1.0, 0)
   returnA -< ()

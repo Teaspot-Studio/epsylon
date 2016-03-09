@@ -24,7 +24,6 @@ import LambdaCube.GL as LambdaCubeGL hiding (V2)
 import qualified LambdaCube.GL as LC
 import LambdaCube.GL.Mesh as LambdaCubeGL
 
-import Debug.Trace
 -- | Render given string with TrueType font (loaded via FontyFruity) at window coordinates [-1, 1]
 --
 -- Input: top left corner and bottom right corner, and rotation
@@ -63,6 +62,6 @@ countourMesh vs = Mesh
   , mPrimitive    = P_Triangles
   }
   where
-    vs' = VU.concat vs
-    scaleDbg (x, y) = (x / 50, y / (-50))
-    linesVec = VU.foldl (\acc (v1, v2) -> acc `VU.snoc` scaleDbg v1 `VU.snoc` scaleDbg v2 `VU.snoc` scaleDbg v1) VU.empty (vs' `VU.zip` VU.drop 1 vs')
+    addFakePoint acc (v1, v2) = acc `VU.snoc` v1 `VU.snoc` v2 `VU.snoc` v1
+    addFakePoints v = VU.foldl addFakePoint VU.empty (v `VU.zip` VU.drop 1 v)
+    linesVec = VU.concat $ fmap addFakePoints vs

@@ -1,21 +1,8 @@
 import UI.Sprite
---import UI.Font
+import UI.Font
 
-fontUI (prims :: PrimitiveStream Triangle ((Vec 2 Float)) )
-       (minCorner :: Vec 2 Float)
-       (maxCorner :: Vec 2 Float)
-       (rotation :: Float)
-       = imageFrame (( emptyColorImage (V4 0 0 0.4 1) ))
-   `overlay`
-       prims
-     & mapPrimitives (\((p)) -> (offset + (rotMatrixZ rotation *. toV4 (size * p)), p) )
-     & rasterizePrimitives (TriangleCtx CullNone (PolygonLine 0.1) NoOffset LastVertex) ((Smooth))
-     & mapFragments (\_ -> ((white)) )
-     & accumulateWith (( (ColorOp NoBlending (V4 True True True True)) ))
-   where
-     toV4 p = V4 p%x p%y (-1) 1
-     offset = toV4 $ V2 (-1) (-1) - minCorner
-     size = maxCorner - minCorner
+vieportSize :: Vec 2 Float
+vieportSize = V2 (Uniform "windowWidth") (Uniform "windowHeight")
 
 main = renderFrame $
 --   spriteUI  (Texture2DSlot "diffuseTexture")
@@ -27,3 +14,4 @@ main = renderFrame $
            (Uniform "minCorner")
            (Uniform "maxCorner")
            (Uniform "rotation")
+           vieportSize

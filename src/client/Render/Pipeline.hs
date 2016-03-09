@@ -34,8 +34,8 @@ initPipeline = do
     defUniforms $ do
       "time"           @: Float
       "diffuseTexture" @: FTexture2D
-      "windowWidth"    @: Int
-      "windowHeight"   @: Int
+      "windowWidth"    @: Float
+      "windowHeight"   @: Float
       "minCorner"      @: V2F
       "maxCorner"      @: V2F
       "rotation"       @: Float
