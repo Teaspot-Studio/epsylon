@@ -22,7 +22,7 @@ mainPipeline = "mainPipeline"
 -- | Initializes graphic pipeline and creates main window
 initPipeline :: (MonadLambdaCube m, MonadGLFW m) => GameMonadT m ()
 initPipeline = do
-  win <- liftIO $ initWindow "Wydma" 640 640
+  win <- liftIO $ initWindow "Epsylon" 640 640
   setCurrentWindowM $ Just win
   lambdacubeAddPipeline ["./shaders"] "main.lc" mainPipeline $ do
     defObjectArray "objects" Triangles $ do

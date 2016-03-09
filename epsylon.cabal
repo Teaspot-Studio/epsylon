@@ -1,4 +1,4 @@
-name:                gore-and-ash-game
+name:                epsylon
 version:             0.1.0.0
 synopsis:            Society simulation multiplayer game
 description:         Please see README.md
@@ -12,7 +12,7 @@ category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
 
-executable gore-and-ash-client
+executable epsylon-client
   hs-source-dirs:      src/client, src/shared
   main-is:             Main.hs
   default-language:    Haskell2010
@@ -26,7 +26,7 @@ executable gore-and-ash-client
                       Render.Pipeline
                       Render.Sprite
                       Math
-                      
+
   build-depends:        base >= 4.7 && < 5
                       , cereal >= 0.4.1.1
                       , deepseq >= 1.4.1.1
@@ -62,7 +62,7 @@ executable gore-and-ash-client
 
   ghc-options: -Wall -threaded
 
-executable gore-and-ash-server
+executable epsylon-server
   hs-source-dirs:      src/server, src/shared
   main-is:             Main.hs
   default-language:    Haskell2010
