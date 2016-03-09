@@ -16,34 +16,42 @@ executable gore-and-ash-client
   hs-source-dirs:      src/client, src/shared
   main-is:             Main.hs
   default-language:    Haskell2010
-  other-modules:       
+  other-modules:
                       Consts
                       FPS
                       Game
                       Game.Core
                       Game.Data
                       Game.World.Shared
-                      Render.Texture
-
+                      Render.Pipeline
+                      Render.Sprite
+                      Math
+                      
   build-depends:        base >= 4.7 && < 5
                       , cereal >= 0.4.1.1
                       , deepseq >= 1.4.1.1
                       , exceptions >= 0.8.2.1
-                      , gore-and-ash >= 1.1.0.1
+                      , GLFW-b >= 1.4.7.3
+                      , gore-and-ash >= 1.2.1.0
                       , gore-and-ash-actor >= 1.1.0.0
+                      , gore-and-ash-glfw >= 1.1.1.0
+                      , gore-and-ash-lambdacube >= 0.1.0.0
                       , gore-and-ash-logging >= 1.1.0.0
                       , gore-and-ash-network >= 1.1.0.1
-                      , gore-and-ash-sdl >= 1.1.0.1
                       , gore-and-ash-sync >= 1.1.0.0
+                      , JuicyPixels >= 3.2.7
+                      , lambdacube-gl >= 0.5
                       , linear >= 1.20.3
                       , network >= 2.6.2.1
+                      , StateVar >= 1.1.0.3
                       , text >= 1.2.2.0
                       , transformers >= 0.4.2.0
-                      , StateVar >= 1.1.0.3
+                      , containers >= 0.5.6.2
+                      , vector >= 0.11.0.0
 
-  default-extensions: 
+  default-extensions:
                       Arrows
-                      DataKinds 
+                      DataKinds
                       DeriveGeneric
                       FlexibleContexts
                       GeneralizedNewtypeDeriving
@@ -51,7 +59,7 @@ executable gore-and-ash-client
                       OverloadedStrings
                       TupleSections
                       TypeFamilies
-                      
+
   ghc-options: -Wall -threaded
 
 executable gore-and-ash-server
@@ -59,7 +67,7 @@ executable gore-and-ash-server
   main-is:             Main.hs
   default-language:    Haskell2010
 
-  other-modules:       
+  other-modules:
                       Data.Range
                       FPS
                       Game
@@ -79,8 +87,7 @@ executable gore-and-ash-server
                       , containers >= 0.5.6.2
                       , deepseq >= 1.4.1.1
                       , exceptions >= 0.8.2.1
-                      , gore-and-ash >= 1.1.0.1
-                      , gore-and-ash >= 1.1.0.1
+                      , gore-and-ash >= 1.2.1.0
                       , gore-and-ash-actor >= 1.1.0.0
                       , gore-and-ash-logging >= 1.1.0.0
                       , gore-and-ash-network >= 1.1.0.1
@@ -94,10 +101,10 @@ executable gore-and-ash-server
                       , unordered-containers >= 0.2.5.1
                       , vector >= 0.11.0.0
                       , yaml >= 0.8.15.2
-                      
-  default-extensions: 
+
+  default-extensions:
                       Arrows
-                      DataKinds 
+                      DataKinds
                       DeriveGeneric
                       FlexibleContexts
                       GeneralizedNewtypeDeriving
@@ -105,6 +112,6 @@ executable gore-and-ash-server
                       OverloadedStrings
                       RecordWildCards
                       ScopedTypeVariables
-                      TypeFamilies 
+                      TypeFamilies
 
   ghc-options: -Wall -threaded
