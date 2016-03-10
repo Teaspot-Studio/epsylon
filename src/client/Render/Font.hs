@@ -12,16 +12,17 @@ import Graphics.Text.TrueType as TrueType
 import Linear
 
 import qualified Data.Map as Map
+import qualified Data.Vector as V
 import qualified Data.Vector.Unboxed as VU
 
 import Game.Core
 import Math
+import Math.Triangulate
 import Render.Pipeline
 
 import Game.GoreAndAsh
 
 import LambdaCube.GL as LambdaCubeGL hiding (V2)
-import qualified LambdaCube.GL as LC
 import LambdaCube.GL.Mesh as LambdaCubeGL
 
 -- | Render given string with TrueType font (loaded via FontyFruity) at window coordinates [-1, 1]
@@ -57,11 +58,10 @@ renderUIString storage fontPath fontSize s = withInit makeString renderString
 countourMesh :: [VU.Vector (Float, Float)] -> LambdaCubeGL.Mesh
 countourMesh vs = Mesh
   { mAttributes   = Map.fromList
-      [ ("position",  A_V2F $ uncurry LC.V2 <$> VU.convert linesVec)
+      [ ("position",  A_V2F $ toLC <$> verts)
       ]
   , mPrimitive    = P_Triangles
   }
   where
-    addFakePoint acc (v1, v2) = acc `VU.snoc` v1 `VU.snoc` v2 `VU.snoc` v1
-    addFakePoints v = VU.foldl addFakePoint VU.empty (v `VU.zip` VU.drop 1 v)
-    linesVec = VU.concat $ fmap addFakePoints vs
+    triangles = V.concat $ fmap (triangulate2D . fmap (uncurry V2) . VU.convert) vs
+    verts = V.concatMap (\(a, b, c) -> V.singleton a `V.snoc` b `V.snoc` c) triangles

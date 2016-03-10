@@ -31,6 +31,8 @@ extra-deps:
 - text-1.2.2.0
 - typesafe-endian-0.1.0.1
 - vect-0.4.7
+- delaunay-0.1.0.2
+- AC-Vector-2.3.2
 
 # Override default flag values for local packages and extra-deps
 flags: {}
